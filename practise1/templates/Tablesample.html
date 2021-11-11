@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Risk Assessment Project</title>
+  <link href="{% static 'bootstrap.css'%}" rel="stylesheet" />
+  
+  <script src="{% static 'jquery-1.11.0.min.js'%}"></script>
+  <script src="{%static 'bootstrap.min.js'%}"></script>
+</head>
+<body>
+    <form action="test" method='POST'>
+        {%csrf_token%}
+        <p>Asset name:</p><br>
+        <input type="text" name="assetname"><br>
+        <p>Asset Version:</p><br>
+        <input type="text"  name="version">
+        <input type="submit" value="List Vulnerability">
+      </form>
+</body>

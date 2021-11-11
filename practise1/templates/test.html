@@ -1,0 +1,173 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Risk Assessment Project</title>
+  <link href="{% static 'bootstrap.css'%}" rel="stylesheet" />
+  
+  <script src="{% static 'jquery-1.11.0.min.js'%}"></script>
+  <script src="{%static 'bootstrap.min.js'%}"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h2>Asset Information</h2>
+      </div>
+    </div>
+   <!-- <div class="row">
+      <div class="col-sm-6">
+        <table id="productTable"
+               class="table table-bordered table-condensed table-striped">
+          <thead>
+            <tr>
+              <th>Edit</th>
+              <th>Asset Name</th>
+              <th>Version</th>
+              
+             <th>Delete</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>-->
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Asset Information
+          </div>
+          <form action="test" method='POST'>
+            {%csrf_token%}
+          <div class="panel-body">
+           
+            <div class="form-group">
+             
+              <label for="productname">
+                Asset Name
+              </label>
+              <input type="text" name="assetname">
+            </div>
+            <div class="form-group">
+              <label for="introdate">
+                Asset Version
+              </label>
+              <input type="text"  name="version">
+            </div>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-xs-12">
+                <input type="submit" 
+                        value="List Vulnerability"
+                        class="btn btn-primary"
+                        >
+                
+             
+          </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Current product being edited
+    var editRow = null;
+
+    function productDisplay(ctl) {
+      editRow = $(ctl).parents("tr");
+      var cols = editRow.children("td");
+
+      $("#productname").val($(cols[1]).text());
+      $("#introdate").val($(cols[2]).text());
+      
+
+      // Change Update Button Text
+      $("#updateButton").text("Update");
+    }
+
+    function productUpdate() {
+      if ($("#updateButton").text() == "Update") {
+        productUpdateInTable();
+      }
+      else {
+        productAddToTable();
+      }
+
+      // Clear form fields
+      formClear();
+
+      // Focus to product name field
+      $("#productname").focus();
+    }
+
+    // Add product to <table>
+    function productAddToTable() {
+      // First check if a <tbody> tag exists, add one if not
+      if ($("#productTable tbody").length == 0) {
+        $("#productTable").append("<tbody></tbody>");
+      }
+
+      // Append product to table
+      $("#productTable tbody").append(
+        productBuildTableRow());
+    }
+
+    // Update product in <table>
+    function productUpdateInTable() {
+      // Add changed product to table
+      $(editRow).after(productBuildTableRow());
+
+      // Remove original product
+      $(editRow).remove();
+
+      // Clear form fields
+      formClear();
+
+      // Change Update Button Text
+      $("#updateButton").text("Add");
+    }
+
+    // Build a <table> row of Product data
+    function productBuildTableRow() {
+      var ret =
+      "<tr>" +
+        "<td>" +
+          "<button type='button' " +
+                  "onclick='productDisplay(this);' " +
+                  "class='btn btn-default'>" +
+                  "<span class='glyphicon glyphicon-edit' />" +
+          "</button>" +
+        "</td>" +
+        "<td>" + $("#productname").val() + "</td>" +
+        "<td>" + $("#introdate").val() + "</td>" +
+       
+        "<td>" +
+          "<button type='button' " +
+                  "onclick='productDelete(this);' " +
+                  "class='btn btn-default'>" +
+                  "<span class='glyphicon glyphicon-remove' />" +
+          "</button>" +
+        "</td>" +
+      "</tr>"
+
+      return ret;
+    }
+
+    // Delete product from <table>
+    function productDelete(ctl) {
+      $(ctl).parents("tr").remove();
+    }
+
+    // Clear form fields
+    function formClear() {
+      $("#productname").val("");
+      $("#introdate").val("");
+     
+    }
+  </script>
+</body>
+</html>
